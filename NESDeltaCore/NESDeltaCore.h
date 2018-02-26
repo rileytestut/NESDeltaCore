@@ -15,5 +15,9 @@ FOUNDATION_EXPORT double NESDeltaCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char NESDeltaCoreVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <NESDeltaCore/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <GBCDeltaCore/PublicHeader.h>
+#import <NESDeltaCore/NESEmulatorBridge.h>
 
+// Extensible Enums
+FOUNDATION_EXPORT CheatType const CheatTypeGameGenie;
 

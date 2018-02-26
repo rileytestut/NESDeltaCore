@@ -242,6 +242,10 @@
 		BF2241C42043967200DDF06C /* xstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF2241B82043967100DDF06C /* xstring.cpp */; };
 		BF2241C52043967200DDF06C /* general.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF2241BA2043967200DDF06C /* general.cpp */; };
 		BF2241D12043A15500DDF06C /* libFCEUX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF223F742043946000DDF06C /* libFCEUX.a */; };
+		BF2241D32043A19F00DDF06C /* NES.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2241D22043A19E00DDF06C /* NES.swift */; };
+		BF2241D72043A1A800DDF06C /* NESEmulatorBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = BF2241D52043A1A800DDF06C /* NESEmulatorBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF2241D82043A1A800DDF06C /* NESEmulatorBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2241D62043A1A800DDF06C /* NESEmulatorBridge.m */; };
+		BF2241DA2043A20400DDF06C /* NESDeltaCore.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2241D92043A20400DDF06C /* NESDeltaCore.m */; };
 		BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -599,6 +603,10 @@
 		BF2241B82043967100DDF06C /* xstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xstring.cpp; path = fceux/src/utils/xstring.cpp; sourceTree = "<group>"; };
 		BF2241B92043967100DDF06C /* SConscript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SConscript; path = fceux/src/utils/SConscript; sourceTree = "<group>"; };
 		BF2241BA2043967200DDF06C /* general.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = general.cpp; path = fceux/src/utils/general.cpp; sourceTree = "<group>"; };
+		BF2241D22043A19E00DDF06C /* NES.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NES.swift; sourceTree = "<group>"; };
+		BF2241D52043A1A800DDF06C /* NESEmulatorBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESEmulatorBridge.h; sourceTree = "<group>"; };
+		BF2241D62043A1A800DDF06C /* NESEmulatorBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESEmulatorBridge.m; sourceTree = "<group>"; };
+		BF2241D92043A20400DDF06C /* NESDeltaCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NESDeltaCore.m; sourceTree = "<group>"; };
 		BF3C12F320438F3F0079A4B5 /* NESDeltaCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NESDeltaCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NESDeltaCore.h; sourceTree = "<group>"; };
 		BF3C12F720438F3F0079A4B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1015,6 +1023,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BF2241D42043A1A100DDF06C /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				BF2241D52043A1A800DDF06C /* NESEmulatorBridge.h */,
+				BF2241D62043A1A800DDF06C /* NESEmulatorBridge.m */,
+			);
+			path = Bridge;
+			sourceTree = "<group>";
+		};
 		BF3C12E920438F3F0079A4B5 = {
 			isa = PBXGroup;
 			children = (
@@ -1038,6 +1055,9 @@
 			isa = PBXGroup;
 			children = (
 				BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */,
+				BF2241D92043A20400DDF06C /* NESDeltaCore.m */,
+				BF2241D22043A19E00DDF06C /* NES.swift */,
+				BF2241D42043A1A100DDF06C /* Bridge */,
 				BF3C12F720438F3F0079A4B5 /* Info.plist */,
 			);
 			path = NESDeltaCore;
@@ -1051,6 +1071,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */,
+				BF2241D72043A1A800DDF06C /* NESEmulatorBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1387,6 +1408,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF2241DA2043A20400DDF06C /* NESDeltaCore.m in Sources */,
+				BF2241D82043A1A800DDF06C /* NESEmulatorBridge.m in Sources */,
+				BF2241D32043A19F00DDF06C /* NES.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
