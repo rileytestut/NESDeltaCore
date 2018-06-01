@@ -17,9 +17,14 @@
 #include "NstApiInput.hpp"
 #include "NstApiSound.hpp"
 #include "NstApiVideo.hpp"
+#include "NstApiCheats.hpp"
 
 // C++
 #include <fstream>
+
+// NESDeltaCore
+#import <NESDeltaCore/NESDeltaCore.h>
+#import <NESDeltaCore/NESDeltaCore-Swift.h>
 
 static bool NST_CALLBACK AudioLock(void *context, Nes::Api::Sound::Output& audioOutput);
 static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& audioOutput);
@@ -41,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) Nes::Api::Input input;
 @property (nonatomic, readonly) Nes::Api::Sound audio;
 @property (nonatomic, readonly) Nes::Api::Video video;
+@property (nonatomic, readonly) Nes::Api::Cheats cheats;
 
 @property (nonatomic, readonly) uint16_t *audioBuffer;
 @property (nonatomic, readonly) NSLock *audioLock;
@@ -270,13 +276,31 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Cheats -
 
-- (BOOL)addCheatCode:(NSString *)cheatCode type:(NSString *)type
+- (BOOL)addCheatCode:(NSString *)cheatCode type:(CheatType)type
 {
+    if (![type isEqualToString:CheatTypeGameGenie])
+    {
+        return NO;
+    }
+    
+    Nes::Api::Cheats::Code code;
+    
+    if (NES_FAILED(Nes::Api::Cheats::GameGenieDecode([cheatCode UTF8String], code)))
+    {
+        return NO;
+    }
+    
+    if (NES_FAILED(self.cheats.SetCode(code)))
+    {
+        return NO;
+    }
+    
     return YES;
 }
 
 - (void)resetCheats
 {
+    self.cheats.ClearCodes();
 }
 
 - (void)updateCheats
@@ -308,6 +332,11 @@ NS_ASSUME_NONNULL_END
 - (Nes::Api::Video)video
 {
     return Nes::Api::Video(*self.emulator);
+}
+
+- (Nes::Api::Cheats)cheats
+{
+    return Nes::Api::Cheats(*self.emulator);
 }
 
 @end

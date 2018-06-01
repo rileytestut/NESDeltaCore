@@ -51,7 +51,7 @@ public struct NES: DeltaCoreProtocol
     public let videoFormat = VideoFormat(pixelFormat: .rgb565, dimensions: CGSize(width: 256, height: 240))
     
     public let supportedCheatFormats: Set<CheatFormat> = {
-        let gameGenieFormat = CheatFormat(name: NSLocalizedString("Game Genie", comment: ""), format: "XXXXXXXX", type: .gameGenie)
+        let gameGenieFormat = CheatFormat(name: NSLocalizedString("Game Genie", comment: ""), format: "XXXXXX", type: .gameGenie, allowedCodeCharacters: .letters)
         return [gameGenieFormat]
     }()
     
