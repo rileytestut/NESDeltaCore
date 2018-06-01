@@ -301,6 +301,8 @@
 		BF2F73BE20BDD8CA009114FF /* NstDatabase.xml in Resources */ = {isa = PBXBuildFile; fileRef = BF2F72C320BDD139009114FF /* NstDatabase.xml */; };
 		BF2F73C020BF1A2F009114FF /* Standard.deltaskin in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73BF20BF1A2E009114FF /* Standard.deltaskin */; };
 		BF2F73C220BF1A93009114FF /* Standard.deltamapping in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73C120BF1A93009114FF /* Standard.deltamapping */; };
+		BF34EBC420C1B57A0075AD22 /* NESEmulatorBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF34EBC220C1B57A0075AD22 /* NESEmulatorBridge.cpp */; };
+		BF34EBC520C1B57A0075AD22 /* NESEmulatorBridge.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BF34EBC320C1B57A0075AD22 /* NESEmulatorBridge.hpp */; };
 		BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -952,6 +954,8 @@
 		BF2F73B620BDD1AB009114FF /* NstVsSuperXevious.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NstVsSuperXevious.hpp; path = nestopia/source/core/vssystem/NstVsSuperXevious.hpp; sourceTree = "<group>"; };
 		BF2F73BF20BF1A2E009114FF /* Standard.deltaskin */ = {isa = PBXFileReference; lastKnownFileType = file; path = Standard.deltaskin; sourceTree = "<group>"; };
 		BF2F73C120BF1A93009114FF /* Standard.deltamapping */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Standard.deltamapping; sourceTree = "<group>"; };
+		BF34EBC220C1B57A0075AD22 /* NESEmulatorBridge.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NESEmulatorBridge.cpp; sourceTree = "<group>"; };
+		BF34EBC320C1B57A0075AD22 /* NESEmulatorBridge.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NESEmulatorBridge.hpp; sourceTree = "<group>"; };
 		BF3C12F320438F3F0079A4B5 /* NESDeltaCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NESDeltaCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NESDeltaCore.h; sourceTree = "<group>"; };
 		BF3C12F720438F3F0079A4B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -988,6 +992,8 @@
 			children = (
 				BF2241D52043A1A800DDF06C /* NESEmulatorBridge.h */,
 				BF2241D62043A1A800DDF06C /* NESEmulatorBridge.mm */,
+				BF34EBC320C1B57A0075AD22 /* NESEmulatorBridge.hpp */,
+				BF34EBC220C1B57A0075AD22 /* NESEmulatorBridge.cpp */,
 			);
 			path = Bridge;
 			sourceTree = "<group>";
@@ -1722,6 +1728,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */,
+				BF34EBC520C1B57A0075AD22 /* NESEmulatorBridge.hpp in Headers */,
 				BF2241D72043A1A800DDF06C /* NESEmulatorBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2116,6 +2123,7 @@
 			files = (
 				BF2241DA2043A20400DDF06C /* NESDeltaCore.m in Sources */,
 				BF2241D82043A1A800DDF06C /* NESEmulatorBridge.mm in Sources */,
+				BF34EBC420C1B57A0075AD22 /* NESEmulatorBridge.cpp in Sources */,
 				BF2241D32043A19F00DDF06C /* NES.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
