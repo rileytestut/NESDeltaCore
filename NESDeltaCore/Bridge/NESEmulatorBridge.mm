@@ -23,6 +23,9 @@
 
 static bool NST_CALLBACK AudioLock(void *context, Nes::Api::Sound::Output& audioOutput);
 static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& audioOutput);
+static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file);
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NESEmulatorBridge ()
 
@@ -43,7 +46,13 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
 @property (nonatomic, readonly) NSLock *audioLock;
 @property (nonatomic, readonly) NSInteger preferredAudioFrameLength;
 
+@property (nullable, nonatomic, copy) NSURL *gameSaveSaveURL;
+@property (nullable, nonatomic, copy) NSURL *gameSaveLoadURL;
+
 @end
+
+NS_ASSUME_NONNULL_END
+
 
 @implementation NESEmulatorBridge
 @synthesize audioRenderer = _audioRenderer;
@@ -96,10 +105,10 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
 {
     self.gameURL = gameURL;
     
-    
     /* Prepare Callbacks */
     Nes::Api::Sound::Output::lockCallback.Set(AudioLock, NULL);
     Nes::Api::Sound::Output::unlockCallback.Set(AudioUnlock, NULL);
+    Nes::Api::User::fileIoCallback.Set(FileIO, NULL);
     
     
     /* Load Database */
@@ -108,11 +117,9 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
         NSURL *databaseURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"NstDatabase" withExtension:@"xml"];
         
         std::ifstream databaseFileStream([databaseURL fileSystemRepresentation], std::ifstream::in | std::ifstream::binary);
-        
         self.database.Load(databaseFileStream);
-        self.database.Enable();
         
-        databaseFileStream.close();
+        self.database.Enable();
     }
     
     
@@ -213,20 +220,52 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
 
 - (void)saveSaveStateToURL:(NSURL *)url
 {
+    std::ofstream fileStream([url fileSystemRepresentation], std::ifstream::out | std::ifstream::binary);
+    self.machine.SaveState(fileStream);
 }
 
 - (void)loadSaveStateFromURL:(NSURL *)url
 {
+    std::ifstream fileStream([url fileSystemRepresentation], std::ifstream::in | std::ifstream::binary);
+    self.machine.LoadState(fileStream);
 }
 
 #pragma mark - Game Saves -
 
 - (void)saveGameSaveToURL:(NSURL *)url
 {
+    self.gameSaveSaveURL = url;
+    
+    NSURL *temporaryDirectoryURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
+    NSString *uniqueIdentifier = [[NSProcessInfo processInfo] globallyUniqueString];
+    
+    // Create tempoary save state.
+    NSURL *temporaryURL = [temporaryDirectoryURL URLByAppendingPathComponent:uniqueIdentifier];
+    [self saveSaveStateToURL:temporaryURL];
+    
+    // Unload cartridge, which forces emulator to save game.
+    self.machine.Unload();
+    
+    // Restart emulation.
+    [self startWithGameURL:self.gameURL];
+    
+    // Load previous save save.
+    [self loadSaveStateFromURL:temporaryURL];
+    
+    // Delete temporary save state.
+    NSError *error = nil;
+    if (![[NSFileManager defaultManager] removeItemAtURL:temporaryURL error:&error])
+    {
+        NSLog(@"Error deleting temporary save state. %@", error);
+    }
 }
 
 - (void)loadGameSaveFromURL:(NSURL *)url
 {
+    self.gameSaveLoadURL = url;
+    
+    // Restart emulation so FileIO callback is called.
+    [self startWithGameURL:self.gameURL];
 }
 
 #pragma mark - Cheats -
@@ -285,4 +324,60 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
     [[NESEmulatorBridge.sharedBridge.audioRenderer audioBuffer] writeBuffer:(uint8_t *)audioOutput.samples[0] size:NESEmulatorBridge.sharedBridge.preferredAudioFrameLength * sizeof(uint16_t)];
     
     [NESEmulatorBridge.sharedBridge.audioLock unlock];
+}
+
+static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file)
+{
+    @autoreleasepool
+    {
+        switch (file.GetAction())
+        {
+            case Nes::Api::User::File::LOAD_BATTERY:
+            case Nes::Api::User::File::LOAD_EEPROM:
+            {
+                if (NESEmulatorBridge.sharedBridge.gameSaveLoadURL == nil)
+                {
+                    return;
+                }
+
+                NSData *data = [NSData dataWithContentsOfURL:NESEmulatorBridge.sharedBridge.gameSaveLoadURL];
+                if (data == nil)
+                {
+                    return;
+                }
+                
+                file.SetContent(data.bytes, data.length);
+                
+                NESEmulatorBridge.sharedBridge.gameSaveLoadURL = nil;
+                
+                break;
+            }
+                
+            case Nes::Api::User::File::SAVE_BATTERY:
+            case Nes::Api::User::File::SAVE_EEPROM:
+            {
+                const void *bytes = NULL;
+                unsigned long length = 0;
+                
+                file.GetContent(bytes, length);
+                
+                NSData *data = [NSData dataWithBytes:bytes length:length];
+                if (data == nil)
+                {
+                    return;
+                }
+                
+                if (NESEmulatorBridge.sharedBridge.gameSaveSaveURL != nil)
+                {
+                    [data writeToURL:NESEmulatorBridge.sharedBridge.gameSaveSaveURL atomically:YES];
+                }
+                
+                NESEmulatorBridge.sharedBridge.gameSaveSaveURL = nil;
+                
+                break;
+            }
+                
+            default: break;
+        }
+    }
 }
