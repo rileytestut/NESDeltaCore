@@ -55,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSURL *gameSaveSaveURL;
 @property (nullable, nonatomic, copy) NSURL *gameSaveLoadURL;
 
+@property (nonatomic, getter=isGameLoaded) BOOL gameLoaded;
+
 @end
 
 NS_ASSUME_NONNULL_END
@@ -183,10 +185,15 @@ NS_ASSUME_NONNULL_END
     /* Start Emulation */
     self.machine.Power(true);
     self.machine.SetMode(self.machine.GetDesiredMode());
+    
+    self.gameLoaded = YES;
 }
 
 - (void)stop
 {
+    self.gameLoaded = NO;
+    self.gameURL = nil;
+    
     self.machine.Unload();
 }
 
@@ -251,6 +258,12 @@ NS_ASSUME_NONNULL_END
     
     // Unload cartridge, which forces emulator to save game.
     self.machine.Unload();
+    
+    // Check after self.machine.Unload but before restarting to make sure we aren't starting emulator when no game is loaded.
+    if (![self isGameLoaded])
+    {
+        return;
+    }
     
     // Restart emulation.
     [self startWithGameURL:self.gameURL];
@@ -385,6 +398,16 @@ static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file)
             case Nes::Api::User::File::SAVE_BATTERY:
             case Nes::Api::User::File::SAVE_EEPROM:
             {
+                if (NESEmulatorBridge.sharedBridge.gameSaveSaveURL == nil)
+                {
+                    if (NESEmulatorBridge.sharedBridge.saveUpdateHandler != nil)
+                    {
+                        NESEmulatorBridge.sharedBridge.saveUpdateHandler();
+                    }
+                    
+                    return;
+                }
+                
                 const void *bytes = NULL;
                 unsigned long length = 0;
                 
@@ -396,10 +419,7 @@ static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file)
                     return;
                 }
                 
-                if (NESEmulatorBridge.sharedBridge.gameSaveSaveURL != nil)
-                {
-                    [data writeToURL:NESEmulatorBridge.sharedBridge.gameSaveSaveURL atomically:YES];
-                }
+                [data writeToURL:NESEmulatorBridge.sharedBridge.gameSaveSaveURL atomically:YES];
                 
                 NESEmulatorBridge.sharedBridge.gameSaveSaveURL = nil;
                 
