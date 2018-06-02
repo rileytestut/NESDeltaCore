@@ -277,7 +277,7 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
         return;
     }
     
-    audioCallback((char *)audioOutput.samples[0], preferredAudioFrameLength * sizeof(uint16_t));
+    audioCallback((const unsigned char *)audioOutput.samples[0], preferredAudioFrameLength * sizeof(uint16_t));
 }
 
 static bool NST_CALLBACK VideoLock(void *context, Nes::Api::Video::Output& videoOutput)
@@ -292,7 +292,7 @@ static void NST_CALLBACK VideoUnlock(void *context, Nes::Api::Video::Output& vid
         return;
     }
     
-    videoCallback((char *)videoBuffer, Nes::Api::Video::Output::WIDTH * Nes::Api::Video::Output::HEIGHT * 2);
+    videoCallback((const unsigned char *)videoBuffer, Nes::Api::Video::Output::WIDTH * Nes::Api::Video::Output::HEIGHT * 2);
 }
 
 static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file)

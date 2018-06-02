@@ -11,14 +11,16 @@
 
 #include <stdio.h>
 
+#if defined(__cplusplus)
 extern "C"
 {
-    typedef void (*BufferCallback)(char *buffer, int size);
+#endif
+    typedef void (*BufferCallback)(const unsigned char *_Nonnull buffer, int size);
     typedef void (*VoidCallback)(void);
     
-    void NESInitialize(const char *databasePath);
+    void NESInitialize(const char *_Nonnull databasePath);
     
-    bool NESStartEmulation(const char *gamePath);
+    bool NESStartEmulation(const char *_Nonnull gamePath);
     void NESStopEmulation();
     
     void NESRunFrame();
@@ -27,18 +29,21 @@ extern "C"
     void NESDeactivateInput(int input);
     void NESResetInputs();
     
-    void NESSaveSaveState(const char *saveStatePath);
-    void NESLoadSaveState(const char *saveStatePath);
+    void NESSaveSaveState(const char *_Nonnull saveStatePath);
+    void NESLoadSaveState(const char *_Nonnull saveStatePath);
     
-    void NESSaveGameSave(const char *gameSavePath);
-    void NESLoadGameSave(const char *gameSavePath);
+    void NESSaveGameSave(const char *_Nonnull gameSavePath);
+    void NESLoadGameSave(const char *_Nonnull gameSavePath);
     
-    bool NESAddCheatCode(const char *cheatCode);
+    bool NESAddCheatCode(const char *_Nonnull cheatCode);
     void NESResetCheats();
     
-    void NESSetAudioCallback(BufferCallback audioCallback);
-    void NESSetVideoCallback(BufferCallback videoCallback);
-    void NESSetSaveCallback(VoidCallback saveCallback);
+    void NESSetAudioCallback(_Nullable BufferCallback audioCallback);
+    void NESSetVideoCallback(_Nullable BufferCallback videoCallback);
+    void NESSetSaveCallback(_Nullable VoidCallback saveCallback);
+    
+#if defined(__cplusplus)
 }
+#endif
 
 #endif /* NESEmulatorBridge_hpp */
