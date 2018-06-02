@@ -301,8 +301,6 @@
 		BF2F73BE20BDD8CA009114FF /* NstDatabase.xml in Resources */ = {isa = PBXBuildFile; fileRef = BF2F72C320BDD139009114FF /* NstDatabase.xml */; };
 		BF2F73C020BF1A2F009114FF /* Standard.deltaskin in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73BF20BF1A2E009114FF /* Standard.deltaskin */; };
 		BF2F73C220BF1A93009114FF /* Standard.deltamapping in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73C120BF1A93009114FF /* Standard.deltamapping */; };
-		BF34EBC420C1B57A0075AD22 /* NESEmulatorBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF34EBC220C1B57A0075AD22 /* NESEmulatorBridge.cpp */; };
-		BF34EBC520C1B57A0075AD22 /* NESEmulatorBridge.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BF34EBC320C1B57A0075AD22 /* NESEmulatorBridge.hpp */; };
 		BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -954,11 +952,12 @@
 		BF2F73B620BDD1AB009114FF /* NstVsSuperXevious.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NstVsSuperXevious.hpp; path = nestopia/source/core/vssystem/NstVsSuperXevious.hpp; sourceTree = "<group>"; };
 		BF2F73BF20BF1A2E009114FF /* Standard.deltaskin */ = {isa = PBXFileReference; lastKnownFileType = file; path = Standard.deltaskin; sourceTree = "<group>"; };
 		BF2F73C120BF1A93009114FF /* Standard.deltamapping */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Standard.deltamapping; sourceTree = "<group>"; };
-		BF34EBC220C1B57A0075AD22 /* NESEmulatorBridge.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NESEmulatorBridge.cpp; sourceTree = "<group>"; };
-		BF34EBC320C1B57A0075AD22 /* NESEmulatorBridge.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NESEmulatorBridge.hpp; sourceTree = "<group>"; };
 		BF3C12F320438F3F0079A4B5 /* NESDeltaCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NESDeltaCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NESDeltaCore.h; sourceTree = "<group>"; };
 		BF3C12F720438F3F0079A4B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NESEmulatorBridge.cpp; sourceTree = "<group>"; };
+		BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NESEmulatorBridge.hpp; sourceTree = "<group>"; };
+		BF5CA7F220C1FF4000BDFCBC /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Makefile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -992,8 +991,6 @@
 			children = (
 				BF2241D52043A1A800DDF06C /* NESEmulatorBridge.h */,
 				BF2241D62043A1A800DDF06C /* NESEmulatorBridge.mm */,
-				BF34EBC320C1B57A0075AD22 /* NESEmulatorBridge.hpp */,
-				BF34EBC220C1B57A0075AD22 /* NESEmulatorBridge.cpp */,
 			);
 			path = Bridge;
 			sourceTree = "<group>";
@@ -1694,6 +1691,7 @@
 			children = (
 				BF3C12F520438F3F0079A4B5 /* NESDeltaCore */,
 				BF2F702B20BDCFA5009114FF /* libNestopia */,
+				BF5CA7EB20C1EDA200BDFCBC /* NestopiaJS */,
 				BF3C12F420438F3F0079A4B5 /* Products */,
 				BF2241D02043A15500DDF06C /* Frameworks */,
 			);
@@ -1720,6 +1718,16 @@
 			path = NESDeltaCore;
 			sourceTree = "<group>";
 		};
+		BF5CA7EB20C1EDA200BDFCBC /* NestopiaJS */ = {
+			isa = PBXGroup;
+			children = (
+				BF5CA7F220C1FF4000BDFCBC /* Makefile */,
+				BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */,
+				BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */,
+			);
+			path = NestopiaJS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1728,12 +1736,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */,
-				BF34EBC520C1B57A0075AD22 /* NESEmulatorBridge.hpp in Headers */,
 				BF2241D72043A1A800DDF06C /* NESEmulatorBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		BF0F05F620C1EC95009560DD /* libNestopiaJS */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = BF0F05F920C1EC95009560DD /* Build configuration list for PBXLegacyTarget "libNestopiaJS" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "$(SRCROOT)/NestopiaJS";
+			dependencies = (
+			);
+			name = libNestopiaJS;
+			passBuildSettingsInEnvironment = 1;
+			productName = libNestopiaJS;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		BF2F702120BDCF93009114FF /* libNestopia */ = {
@@ -1781,6 +1805,10 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Riley Testut";
 				TargetAttributes = {
+					BF0F05F620C1EC95009560DD = {
+						CreatedOnToolsVersion = 9.4;
+						ProvisioningStyle = Automatic;
+					};
 					BF2F702120BDCF93009114FF = {
 						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Automatic;
@@ -1806,6 +1834,7 @@
 			targets = (
 				BF3C12F220438F3F0079A4B5 /* NESDeltaCore */,
 				BF2F702120BDCF93009114FF /* libNestopia */,
+				BF0F05F620C1EC95009560DD /* libNestopiaJS */,
 			);
 		};
 /* End PBXProject section */
@@ -2123,7 +2152,6 @@
 			files = (
 				BF2241DA2043A20400DDF06C /* NESDeltaCore.m in Sources */,
 				BF2241D82043A1A800DDF06C /* NESEmulatorBridge.mm in Sources */,
-				BF34EBC420C1B57A0075AD22 /* NESEmulatorBridge.cpp in Sources */,
 				BF2241D32043A19F00DDF06C /* NES.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2139,6 +2167,43 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		BF0F05F720C1EC95009560DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 6XVY5G3U44;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BF0F05F820C1EC95009560DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6XVY5G3U44;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		BF2F702920BDCF94009114FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2347,6 +2412,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BF0F05F920C1EC95009560DD /* Build configuration list for PBXLegacyTarget "libNestopiaJS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF0F05F720C1EC95009560DD /* Debug */,
+				BF0F05F820C1EC95009560DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BF2F702820BDCF94009114FF /* Build configuration list for PBXNativeTarget "libNestopia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
