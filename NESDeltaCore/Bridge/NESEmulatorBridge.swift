@@ -9,7 +9,9 @@
 import Foundation
 import WebKit
 
+#if FRAMEWORK
 import DeltaCore
+#endif
 
 extension NESEmulatorBridge
 {
@@ -84,6 +86,8 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     public var videoRenderer: VideoRendering?
     public var saveUpdateHandler: (() -> Void)?
     
+    public static var applicationWindow: UIWindow?
+    
     private var webView: WKWebView!
     private var initialNavigation: WKNavigation?
     
@@ -91,6 +95,12 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     
     private override init()
     {
+        // Cannot normally use UIApplication.shared from extensions, so we get around this by calling value(forKey:).
+        if let window = (UIApplication.value(forKey: "sharedApplication") as? UIApplication)?.delegate?.window
+        {
+            NESEmulatorBridge.applicationWindow = window
+        }
+        
         super.init()
         
         let configuration = WKWebViewConfiguration()
@@ -98,8 +108,8 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
         
         self.webView = WKWebView(frame: .zero, configuration: configuration)
         self.webView.navigationDelegate = self
-        
-        UIApplication.shared.delegate?.window!?.addSubview(self.webView)
+        self.webView.isHidden = true
+        NESEmulatorBridge.applicationWindow?.addSubview(self.webView)
         
         self.initialNavigation = self.webView.loadHTMLString("<!doctype html></html>", baseURL: nil)
     }

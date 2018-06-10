@@ -9,7 +9,9 @@
 import Foundation
 import AVFoundation
 
+#if FRAMEWORK
 import DeltaCore
+#endif
 
 public extension GameType
 {
