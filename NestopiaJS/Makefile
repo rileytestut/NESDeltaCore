@@ -1,5 +1,5 @@
 CXX = em++
-CXXFLAGS = -O0 -DNST_NO_ZLIB
+CXXFLAGS = -O3 -DNST_NO_ZLIB
 INCLUDE  := -I../nestopia/source/core -I../nestopia/source/core/api
 SOURCES = \
 	$(wildcard ./*.cpp) \
@@ -16,23 +16,36 @@ EXPORTED_FUNCS = \
 	"_NESStopEmulation", \
 	"_NESRunFrame", \
 	"_NESActivateInput", \
-	"_NESDeactivateInput" \
-	"_NESResetInputs" \
-	"_NESSaveSaveState" \
-	"_NESLoadSaveState" \
-	"_NESSaveGameSave" \
-	"_NESLoadGameSave" \
-	"_NESAddCheatCode" \
-	"_NESResetCheats" \
-	"_NESSetAudioCallback" \
-	"_NESSetVideoCallback" \
-	"_NESSetSaveCallback" \
+	"_NESDeactivateInput", \
+	"_NESResetInputs", \
+	"_NESSaveSaveState", \
+	"_NESLoadSaveState", \
+	"_NESSaveGameSave", \
+	"_NESLoadGameSave", \
+	"_NESAddCheatCode", \
+	"_NESResetCheats", \
+	"_NESSetAudioCallback", \
+	"_NESSetVideoCallback", \
+	"_NESSetSaveCallback"
 
-EMFLAGS = -s WASM=0 -s EXPORTED_FUNCTIONS='[$(EXPORTED_FUNCS)]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall"]'
+EXPORTED_RUNTIME_FUNCS = \
+	"ccall", \
+	"allocate", \
+	"intArrayFromString", \
+	"FS", \
+	"writeFile", \
+	"readFile", \
+	"HEAPU8", \
+	"addFunction", \
+	"ALLOC_NORMAL", \
+	"getValue", \
+	"stat"
+        
+
+EMFLAGS = --memory-init-file 0 --post-js post.js --embed-file NstDatabase.xml -s WASM=0 -s EXPORTED_FUNCTIONS='[$(EXPORTED_FUNCS)]' -s EXTRA_EXPORTED_RUNTIME_METHODS='[$(EXPORTED_RUNTIME_FUNCS)]' -s RESERVED_FUNCTION_POINTERS=5
 
 build: $(SOURCES)
 	$(CXX) $(CXXFLAGS) $(EMFLAGS) $(INCLUDE) $(SOURCES) -o nestopia.js
 
 clean:
 	-@rm -rvf nestopia.js
-	-@rm -rvf nestopia.wasm

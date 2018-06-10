@@ -18,7 +18,7 @@ extern "C"
     typedef void (*BufferCallback)(const unsigned char *_Nonnull buffer, int size);
     typedef void (*VoidCallback)(void);
     
-    void NESInitialize(const char *_Nonnull databasePath);
+    void NESInitialize();
     
     bool NESStartEmulation(const char *_Nonnull gamePath);
     void NESStopEmulation();

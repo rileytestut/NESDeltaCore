@@ -294,13 +294,12 @@
 		BF2F73B820BDD1AB009114FF /* NstVsSuperXevious.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF2F73B120BDD1AA009114FF /* NstVsSuperXevious.cpp */; };
 		BF2F73B920BDD1AB009114FF /* NstVsRbiBaseball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF2F73B220BDD1AA009114FF /* NstVsRbiBaseball.cpp */; };
 		BF2F73BA20BDD1AB009114FF /* NstVsSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF2F73B420BDD1AA009114FF /* NstVsSystem.cpp */; };
-		BF2F73BB20BDD380009114FF /* libNestopia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F702220BDCF93009114FF /* libNestopia.a */; };
 		BF2F73BE20BDD8CA009114FF /* NstDatabase.xml in Resources */ = {isa = PBXBuildFile; fileRef = BF2F72C320BDD139009114FF /* NstDatabase.xml */; };
 		BF2F73C020BF1A2F009114FF /* Standard.deltaskin in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73BF20BF1A2E009114FF /* Standard.deltaskin */; };
 		BF2F73C220BF1A93009114FF /* Standard.deltamapping in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73C120BF1A93009114FF /* Standard.deltamapping */; };
 		BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BFEE181820C21994006A17CD /* NESEmulatorBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */; };
-		BFEE181E20C21B01006A17CD /* NESEmulatorBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEE181D20C21B01006A17CD /* NESEmulatorBridge.swift */; };
+		BF3DA3FC20C7079C00E3AE6B /* NESEmulatorBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEE181D20C21B01006A17CD /* NESEmulatorBridge.swift */; };
+		BF9DD5AB20C72BBB0098C38D /* nestopia.js in Resources */ = {isa = PBXBuildFile; fileRef = BF9DD5AA20C72BBB0098C38D /* nestopia.js */; };
 		BFEE181F20C21BE6006A17CD /* NESEmulatorBridge.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -955,6 +954,7 @@
 		BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NESEmulatorBridge.cpp; sourceTree = "<group>"; };
 		BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NESEmulatorBridge.hpp; sourceTree = "<group>"; };
 		BF5CA7F220C1FF4000BDFCBC /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Makefile; sourceTree = "<group>"; };
+		BF9DD5AA20C72BBB0098C38D /* nestopia.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = nestopia.js; sourceTree = "<group>"; };
 		BFEE181D20C21B01006A17CD /* NESEmulatorBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESEmulatorBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -970,20 +970,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF2F73BB20BDD380009114FF /* libNestopia.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BF2241D02043A15500DDF06C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		BF2241D42043A1A100DDF06C /* Bridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -1690,7 +1682,6 @@
 				BF2F702B20BDCFA5009114FF /* libNestopia */,
 				BF5CA7EB20C1EDA200BDFCBC /* NestopiaJS */,
 				BF3C12F420438F3F0079A4B5 /* Products */,
-				BF2241D02043A15500DDF06C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1720,6 +1711,7 @@
 				BF5CA7F220C1FF4000BDFCBC /* Makefile */,
 				BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */,
 				BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */,
+				BF9DD5AA20C72BBB0098C38D /* nestopia.js */,
 			);
 			path = NestopiaJS;
 			sourceTree = "<group>";
@@ -1840,6 +1832,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF9DD5AB20C72BBB0098C38D /* nestopia.js in Resources */,
 				BF2F73C020BF1A2F009114FF /* Standard.deltaskin in Resources */,
 				BF2F73C220BF1A93009114FF /* Standard.deltamapping in Resources */,
 				BF2F73BE20BDD8CA009114FF /* NstDatabase.xml in Resources */,
@@ -2146,9 +2139,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFEE181820C21994006A17CD /* NESEmulatorBridge.cpp in Sources */,
 				BF2241D32043A19F00DDF06C /* NES.swift in Sources */,
-				BFEE181E20C21B01006A17CD /* NESEmulatorBridge.swift in Sources */,
+				BF3DA3FC20C7079C00E3AE6B /* NESEmulatorBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

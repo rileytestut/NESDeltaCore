@@ -59,10 +59,10 @@ static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file);
 
 #pragma mark - Initialization/Deallocation -
 
-void NESInitialize(const char *databasePath)
+void NESInitialize()
 {
     /* Load Database */
-    std::ifstream databaseFileStream(databasePath, std::ifstream::in | std::ifstream::binary);
+    std::ifstream databaseFileStream("NstDatabase.xml", std::ifstream::in | std::ifstream::binary);
     database.Load(databaseFileStream);
     database.Enable();
     
@@ -277,7 +277,7 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
         return;
     }
     
-    audioCallback((const unsigned char *)audioOutput.samples[0], preferredAudioFrameLength * sizeof(uint16_t));
+    audioCallback((unsigned char *)audioBuffer, preferredAudioFrameLength * sizeof(int16_t));
 }
 
 static bool NST_CALLBACK VideoLock(void *context, Nes::Api::Video::Output& videoOutput)
@@ -292,7 +292,7 @@ static void NST_CALLBACK VideoUnlock(void *context, Nes::Api::Video::Output& vid
         return;
     }
     
-    videoCallback((const unsigned char *)videoBuffer, Nes::Api::Video::Output::WIDTH * Nes::Api::Video::Output::HEIGHT * 2);
+    (*videoCallback)((const unsigned char *)videoBuffer, Nes::Api::Video::Output::WIDTH * Nes::Api::Video::Output::HEIGHT * 2);
 }
 
 static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file)
