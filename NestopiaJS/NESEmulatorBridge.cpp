@@ -59,10 +59,10 @@ static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file);
 
 #pragma mark - Initialization/Deallocation -
 
-void NESInitialize()
+void NESInitialize(const char *databasePath)
 {
     /* Load Database */
-    std::ifstream databaseFileStream("NstDatabase.xml", std::ifstream::in | std::ifstream::binary);
+    std::ifstream databaseFileStream(databasePath, std::ifstream::in | std::ifstream::binary);
     database.Load(databaseFileStream);
     database.Enable();
     

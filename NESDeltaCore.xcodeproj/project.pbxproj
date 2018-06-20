@@ -299,6 +299,9 @@
 		BF2F73C220BF1A93009114FF /* Standard.deltamapping in Resources */ = {isa = PBXBuildFile; fileRef = BF2F73C120BF1A93009114FF /* Standard.deltamapping */; };
 		BF3C12F820438F3F0079A4B5 /* NESDeltaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF3DA3FC20C7079C00E3AE6B /* NESEmulatorBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEE181D20C21B01006A17CD /* NESEmulatorBridge.swift */; };
+		BF4634A320D9D46800CD12FD /* libNestopia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F702220BDCF93009114FF /* libNestopia.a */; };
+		BF4634A420D9D46E00CD12FD /* NESEmulatorBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */; };
+		BF4634A620D9D60200CD12FD /* NstDatabase.xml in Resources */ = {isa = PBXBuildFile; fileRef = BF4634A520D9D60200CD12FD /* NstDatabase.xml */; };
 		BF9DD5AB20C72BBB0098C38D /* nestopia.js in Resources */ = {isa = PBXBuildFile; fileRef = BF9DD5AA20C72BBB0098C38D /* nestopia.js */; };
 		BFEE181F20C21BE6006A17CD /* NESEmulatorBridge.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -951,6 +954,7 @@
 		BF3C12F320438F3F0079A4B5 /* NESDeltaCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NESDeltaCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3C12F620438F3F0079A4B5 /* NESDeltaCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NESDeltaCore.h; sourceTree = "<group>"; };
 		BF3C12F720438F3F0079A4B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF4634A520D9D60200CD12FD /* NstDatabase.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = NstDatabase.xml; path = NestopiaJS/NstDatabase.xml; sourceTree = SOURCE_ROOT; };
 		BF5CA7F020C1EE0B00BDFCBC /* NESEmulatorBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NESEmulatorBridge.cpp; sourceTree = "<group>"; };
 		BF5CA7F120C1EE0B00BDFCBC /* NESEmulatorBridge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NESEmulatorBridge.hpp; sourceTree = "<group>"; };
 		BF5CA7F220C1FF4000BDFCBC /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Makefile; sourceTree = "<group>"; };
@@ -970,6 +974,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4634A320D9D46800CD12FD /* libNestopia.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1668,6 +1673,7 @@
 		BF34EBC120C1ABB30075AD22 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BF4634A520D9D60200CD12FD /* NstDatabase.xml */,
 				BF3C12F720438F3F0079A4B5 /* Info.plist */,
 				BF2F73BF20BF1A2E009114FF /* Standard.deltaskin */,
 				BF2F73C120BF1A93009114FF /* Standard.deltamapping */,
@@ -1832,6 +1838,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4634A620D9D60200CD12FD /* NstDatabase.xml in Resources */,
 				BF9DD5AB20C72BBB0098C38D /* nestopia.js in Resources */,
 				BF2F73C020BF1A2F009114FF /* Standard.deltaskin in Resources */,
 				BF2F73C220BF1A93009114FF /* Standard.deltamapping in Resources */,
@@ -2140,6 +2147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF2241D32043A19F00DDF06C /* NES.swift in Sources */,
+				BF4634A420D9D46E00CD12FD /* NESEmulatorBridge.cpp in Sources */,
 				BF3DA3FC20C7079C00E3AE6B /* NESEmulatorBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2290,7 +2298,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = FRAMEWORK;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "FRAMEWORK NATIVE";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2343,7 +2351,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = FRAMEWORK;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "FRAMEWORK NATIVE";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

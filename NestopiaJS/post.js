@@ -1,4 +1,4 @@
-_NESInitialize();
+Module.ccall('NESInitialize', null, ['string'], ['NstDatabase.xml'])
   
 var videoCallback = addFunction(function(buffer, size) {
   var typedArray = Module.HEAPU16.subarray(buffer/2, buffer/2 + size/2);

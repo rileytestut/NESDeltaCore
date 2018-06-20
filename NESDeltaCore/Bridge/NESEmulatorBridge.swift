@@ -103,6 +103,27 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
         
         super.init()
         
+        #if NATIVE
+        
+        let databaseURL = Bundle(for: type(of: self)).url(forResource: "NstDatabase", withExtension: "xml")!
+        databaseURL.withUnsafeFileSystemRepresentation { NESInitialize($0!) }
+        
+        NESSetAudioCallback { (buffer, size) in
+            NESEmulatorBridge.shared.audioRenderer?.audioBuffer.write(buffer, size: Int(size))
+        }
+        
+        NESSetVideoCallback { (buffer, size) in
+            memcpy(UnsafeMutableRawPointer(NESEmulatorBridge.shared.videoRenderer?.videoBuffer), buffer, Int(size))
+        }
+        
+        NESSetSaveCallback {
+            NESEmulatorBridge.shared.saveUpdateHandler?()
+        }
+        
+        self.isReady = true
+        
+        #else
+        
         let configuration = WKWebViewConfiguration()
         configuration.userContentController.add(self, name: "NESEmulatorBridge")
         
@@ -112,6 +133,8 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
         NESEmulatorBridge.applicationWindow?.addSubview(self.webView)
         
         self.initialNavigation = self.webView.loadHTMLString("<!doctype html></html>", baseURL: nil)
+        
+        #endif
     }
 }
 
@@ -214,6 +237,12 @@ public extension NESEmulatorBridge
         
         self.gameURL = gameURL
         
+        #if NATIVE
+        
+        gameURL.withUnsafeFileSystemRepresentation { _ = NESStartEmulation($0!) }
+        
+        #else
+        
         let path = gameURL.lastPathComponent
         
         do
@@ -232,11 +261,19 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func stop()
     {
         self.gameURL = nil
+        
+        #if NATIVE
+        
+        NESStopEmulation()
+        
+        #else
         
         do
         {
@@ -246,6 +283,8 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func pause()
@@ -258,6 +297,12 @@ public extension NESEmulatorBridge
     
     func runFrame()
     {
+        #if NATIVE
+        
+        NESRunFrame()
+        
+        #else
+        
         DispatchQueue.main.async {
             self.webView.evaluateJavaScript("_NESRunFrame()") { (result, error) in
                 if let error = error
@@ -266,10 +311,18 @@ public extension NESEmulatorBridge
                 }
             }
         }
+        
+        #endif
     }
     
     func activateInput(_ input: Int)
     {
+        #if NATIVE
+        
+        NESActivateInput(Int32(input))
+        
+        #else
+        
         do
         {
             try self.webView.evaluateJavaScriptSynchronously("_NESActivateInput(\(input))")
@@ -278,10 +331,18 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func deactivateInput(_ input: Int)
     {
+        #if NATIVE
+        
+        NESDeactivateInput(Int32(input))
+        
+        #else
+        
         do
         {
             try self.webView.evaluateJavaScriptSynchronously("_NESDeactivateInput(\(input))")
@@ -290,10 +351,18 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func resetInputs()
     {
+        #if NATIVE
+        
+        NESResetInputs()
+        
+        #else
+        
         do
         {
             try self.webView.evaluateJavaScriptSynchronously("_NESResetInputs()")
@@ -302,12 +371,20 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func saveSaveState(to url: URL)
     {
-        let path = url.lastPathComponent
+        #if NATIVE
         
+        url.withUnsafeFileSystemRepresentation { NESSaveSaveState($0!) }
+        
+        #else
+        
+        let path = url.lastPathComponent
+
         do
         {
             let script = "Module.ccall('NESSaveSaveState', null, ['string'], ['\(path)'])"
@@ -319,16 +396,24 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func loadSaveState(from url: URL)
     {
-        let path = url.lastPathComponent
+        #if NATIVE
         
+        url.withUnsafeFileSystemRepresentation { NESLoadSaveState($0!) }
+        
+        #else
+        
+        let path = url.lastPathComponent
+
         do
         {
             try self.importFile(at: url, to: path)
-            
+
             let script = "Module.ccall('NESLoadSaveState', null, ['string'], ['\(path)'])"
             try self.webView.evaluateJavaScriptSynchronously(script)
         }
@@ -336,33 +421,49 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func saveGameSave(to url: URL)
     {
-        let path = url.lastPathComponent
+        #if NATIVE
         
+        url.withUnsafeFileSystemRepresentation { NESSaveGameSave($0!) }
+        
+        #else
+        
+        let path = url.lastPathComponent
+
         do
         {
             let script = "Module.ccall('NESSaveGameSave', null, ['string'], ['\(path)'])"
             try self.webView.evaluateJavaScriptSynchronously(script)
-            
+
             try self.exportFile(at: path, to: url)
         }
         catch
         {
             print(error)
         }
+        
+        #endif
     }
     
     func loadGameSave(from url: URL)
     {
+        #if NATIVE
+        
+        url.withUnsafeFileSystemRepresentation { NESLoadGameSave($0!) }
+        
+        #else
+        
         let path = url.lastPathComponent
         
         do
         {
             try self.importFile(at: url, to: path)
-            
+
             let script = "Module.ccall('NESLoadGameSave', null, ['string'], ['\(path)'])"
             try self.webView.evaluateJavaScriptSynchronously(script)
         }
@@ -370,17 +471,26 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func addCheatCode(_ cheatCode: String, type: String) -> Bool
     {
         let cheatType = CheatType(type)
         guard cheatType == .gameGenie else { return false }
+
+        #if NATIVE
+        
+        let success = cheatCode.withCString { NESAddCheatCode($0) }
+        return success
+        
+        #else
         
         do
         {
-            let script = "Module.ccall('NESAddCheatCode', null, ['string', 'string'], ['\(cheatCode)', '\(type)'])"
-            
+            let script = "Module.ccall('NESAddCheatCode', null, ['string'], ['\(cheatCode)'])"
+
             let success = try self.webView.evaluateJavaScriptSynchronously(script) as! Bool
             return success
         }
@@ -388,12 +498,20 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
-
+        
         return false
+        
+        #endif
     }
     
     func resetCheats()
     {
+        #if NATIVE
+        
+        NESResetCheats()
+        
+        #else
+        
         do
         {
             try self.webView.evaluateJavaScriptSynchronously("_NESResetCheats()")
@@ -402,6 +520,8 @@ public extension NESEmulatorBridge
         {
             print(error)
         }
+        
+        #endif
     }
     
     func updateCheats()
