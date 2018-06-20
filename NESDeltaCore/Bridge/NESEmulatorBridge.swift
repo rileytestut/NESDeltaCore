@@ -97,8 +97,7 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     
     private override init()
     {
-        // Cannot normally use UIApplication.shared from extensions, so we get around this by calling value(forKey:).
-        if let window = (UIApplication.value(forKey: "sharedApplication") as? UIApplication)?.delegate?.window
+        if let window = UIApplication.delta_shared?.delegate?.window
         {
             NESEmulatorBridge.applicationWindow = window
         }
