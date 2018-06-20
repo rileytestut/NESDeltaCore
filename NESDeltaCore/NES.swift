@@ -50,9 +50,7 @@ public struct NES: DeltaCoreProtocol
     public let gameInputType: Input.Type = NESGameInput.self
     
     public let gameSaveFileExtension = "sav"
-    
-    public let frameDuration = (1.0 / 60.0)
-    
+        
     public let audioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 44100, channels: 1, interleaved: true)!
     
     public let videoFormat = VideoFormat(pixelFormat: .rgb565, dimensions: CGSize(width: 256, height: 240))

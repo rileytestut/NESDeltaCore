@@ -11,6 +11,7 @@ SOURCES = \
 	$(wildcard ../nestopia/source/core/vssystem/*.cpp) \
 
 EXPORTED_FUNCS = \
+    "_NESFrameDuration", \
 	"_NESInitialize", \
 	"_NESStartEmulation", \
 	"_NESStopEmulation", \

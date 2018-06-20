@@ -82,6 +82,8 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     
     public private(set) var gameURL: URL?
     
+    public private(set) var frameDuration: TimeInterval = (1.0 / 60.0)
+    
     public var audioRenderer: AudioRendering?
     public var videoRenderer: VideoRendering?
     public var saveUpdateHandler: (() -> Void)?
@@ -241,6 +243,8 @@ public extension NESEmulatorBridge
         
         gameURL.withUnsafeFileSystemRepresentation { _ = NESStartEmulation($0!) }
         
+        self.frameDuration = NESFrameDuration()
+        
         #else
         
         let path = gameURL.lastPathComponent
@@ -252,10 +256,12 @@ public extension NESEmulatorBridge
             let script = "Module.ccall('NESStartEmulation', null, ['string'], ['\(path)'])"
             let result = try self.webView.evaluateJavaScriptSynchronously(script) as! Bool
             
-            if !result
-            {
+            guard result else {
                 print("Error launching game at", gameURL)
+                return
             }
+            
+            self.frameDuration = try self.webView.evaluateJavaScriptSynchronously("_NESFrameDuration()") as! TimeInterval
         }
         catch
         {

@@ -41,7 +41,6 @@ BufferCallback audioCallback = NULL;
 BufferCallback videoCallback = NULL;
 
 uint16_t audioBuffer[0x8000];
-unsigned int preferredAudioFrameLength = 735;
 
 uint8_t videoBuffer[Nes::Api::Video::Output::WIDTH * Nes::Api::Video::Output::HEIGHT * 2];
 
@@ -56,6 +55,20 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
 static bool NST_CALLBACK VideoLock(void *context, Nes::Api::Video::Output& videoOutput);
 static void NST_CALLBACK VideoUnlock(void *context, Nes::Api::Video::Output& videoOutput);
 static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file);
+
+unsigned int NESPreferredAudioFrameLength()
+{
+    unsigned int frameRate = (machine.GetMode() == Nes::Api::Machine::PAL) ? 50 : 60;
+    
+    unsigned int preferredAudioFrameLength = (44100 / frameRate);
+    return preferredAudioFrameLength;
+}
+
+double NESFrameDuration()
+{
+    double frameDuration = (machine.GetMode() == Nes::Api::Machine::PAL) ? (1.0 / 50.0) : (1.0 / 60.0);
+    return frameDuration;
+}
 
 #pragma mark - Initialization/Deallocation -
 
@@ -90,6 +103,7 @@ bool NESStartEmulation(const char *gameFilepath)
         return false;
     }
     
+    machine.SetMode(machine.GetDesiredMode());
     
     /* Prepare Audio */
     audio.SetSampleBits(16);
@@ -98,7 +112,7 @@ bool NESStartEmulation(const char *gameFilepath)
     audio.SetSpeaker(Nes::Api::Sound::SPEAKER_MONO);
     
     audioOutput.samples[0] = audioBuffer;
-    audioOutput.length[0] = preferredAudioFrameLength;
+    audioOutput.length[0] = NESPreferredAudioFrameLength();
     audioOutput.samples[1] = NULL;
     audioOutput.length[1] = 0;
     
@@ -132,7 +146,6 @@ bool NESStartEmulation(const char *gameFilepath)
     
     /* Start Emulation */
     machine.Power(true);
-    machine.SetMode(machine.GetDesiredMode());
     
     gameLoaded = true;
     
@@ -277,7 +290,7 @@ static void NST_CALLBACK AudioUnlock(void *context, Nes::Api::Sound::Output& aud
         return;
     }
     
-    audioCallback((unsigned char *)audioBuffer, preferredAudioFrameLength * sizeof(int16_t));
+    audioCallback((unsigned char *)audioBuffer, NESPreferredAudioFrameLength() * sizeof(int16_t));
 }
 
 static bool NST_CALLBACK VideoLock(void *context, Nes::Api::Video::Output& videoOutput)
