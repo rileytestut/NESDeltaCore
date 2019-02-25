@@ -8,6 +8,9 @@
 
 #include "NESEmulatorBridge.hpp"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
+
 // Nestopia
 #include "NstBase.hpp"
 #include "NstApiEmulator.hpp"
@@ -18,6 +21,8 @@
 #include "NstApiSound.hpp"
 #include "NstApiVideo.hpp"
 #include "NstApiCheats.hpp"
+
+#pragma clang diagnostic pop
 
 // C++
 #include <iostream>
