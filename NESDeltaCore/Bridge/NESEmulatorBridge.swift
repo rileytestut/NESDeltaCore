@@ -222,7 +222,7 @@ private extension NESEmulatorBridge
         
         let bytes = try self.webView.evaluateJavaScriptSynchronously(script) as! [UInt8]
         
-        let data = Data(bytes: bytes)
+        let data = Data(bytes)
         try data.write(to: fileURL)
     }
 }
