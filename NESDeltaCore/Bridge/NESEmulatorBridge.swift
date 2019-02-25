@@ -30,7 +30,7 @@ extension RunLoop
     {
         while !condition()
         {
-            self.run(mode: .defaultRunLoopMode, before: .distantFuture)
+            self.run(mode: RunLoop.Mode.default, before: .distantFuture)
         }
     }
 }
