@@ -15,12 +15,12 @@ import DeltaCore
 
 public extension GameType
 {
-    public static let nes = GameType("com.rileytestut.delta.game.nes")
+    static let nes = GameType("com.rileytestut.delta.game.nes")
 }
 
 public extension CheatType
 {
-    public static let gameGenie = CheatType("GameGenie")
+    static let gameGenie = CheatType("GameGenie")
 }
 
 @objc public enum NESGameInput: Int, Input
