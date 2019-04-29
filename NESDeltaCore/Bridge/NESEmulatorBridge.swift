@@ -318,9 +318,11 @@ public extension NESEmulatorBridge
         }
         
         #endif
+        
+        self.videoRenderer?.processFrame()
     }
     
-    func activateInput(_ input: Int)
+    func activateInput(_ input: Int, value: Double)
     {
         #if NATIVE
         
