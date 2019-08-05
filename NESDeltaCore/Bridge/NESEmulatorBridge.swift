@@ -300,7 +300,7 @@ public extension NESEmulatorBridge
     {
     }
     
-    func runFrame()
+    func runFrame(processVideo: Bool)
     {
         #if NATIVE
         
@@ -319,7 +319,10 @@ public extension NESEmulatorBridge
         
         #endif
         
-        self.videoRenderer?.processFrame()
+        if processVideo
+        {
+            self.videoRenderer?.processFrame()
+        }
     }
     
     func activateInput(_ input: Int, value: Double)
