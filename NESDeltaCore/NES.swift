@@ -43,24 +43,22 @@ public struct NES: DeltaCoreProtocol
 {
     public static let core = NES()
     
-    public let bundleIdentifier = "com.rileytestut.NESDeltaCore"
+    public var name: String { "NESDeltaCore" }
+    public var identifier: String { "com.rileytestut.NESDeltaCore" }
     
-    public let gameType = GameType.nes
-    
-    public let gameInputType: Input.Type = NESGameInput.self
-    
-    public let gameSaveFileExtension = "sav"
+    public var gameType: GameType { GameType.nes }
+    public var gameInputType: Input.Type { NESGameInput.self }
+    public var gameSaveFileExtension: String { "sav" }
         
     public let audioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 44100, channels: 1, interleaved: true)!
-    
     public let videoFormat = VideoFormat(format: .bitmap(.rgb565), dimensions: CGSize(width: 256, height: 240))
     
-    public let supportedCheatFormats: Set<CheatFormat> = {
+    public var supportedCheatFormats: Set<CheatFormat> {
         let gameGenieFormat = CheatFormat(name: NSLocalizedString("Game Genie", comment: ""), format: "XXXXXX", type: .gameGenie, allowedCodeCharacters: .letters)
         return [gameGenieFormat]
-    }()
+    }
     
-    public let emulatorBridge: EmulatorBridging = NESEmulatorBridge.shared
+    public var emulatorBridge: EmulatorBridging { NESEmulatorBridge.shared }
     
     private init()
     {

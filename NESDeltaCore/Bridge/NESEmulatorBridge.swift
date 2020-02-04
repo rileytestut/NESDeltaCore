@@ -97,16 +97,11 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     
     private override init()
     {
-        if let window = UIApplication.delta_shared?.delegate?.window
-        {
-            NESEmulatorBridge.applicationWindow = window
-        }
-        
         super.init()
         
         #if NATIVE
         
-        let databaseURL = Bundle(for: type(of: self)).url(forResource: "NstDatabase", withExtension: "xml")!
+        let databaseURL = NES.core.resourceBundle.url(forResource: "NstDatabase", withExtension: "xml")!
         databaseURL.withUnsafeFileSystemRepresentation { NESInitialize($0!) }
         
         NESSetAudioCallback { (buffer, size) in
@@ -124,6 +119,11 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
         self.isReady = true
         
         #else
+        
+        if let window = UIApplication.delta_shared?.delegate?.window
+        {
+            NESEmulatorBridge.applicationWindow = window
+        }
         
         let configuration = WKWebViewConfiguration()
         configuration.userContentController.add(self, name: "NESEmulatorBridge")
@@ -145,7 +145,7 @@ extension NESEmulatorBridge: WKNavigationDelegate
     {
         guard navigation == self.initialNavigation else { return }
         
-        let scriptURL = NES.core.bundle.url(forResource: "nestopia", withExtension: "js")!
+        let scriptURL = NES.core.resourceBundle.url(forResource: "nestopia", withExtension: "js")!
         
         do
         {
