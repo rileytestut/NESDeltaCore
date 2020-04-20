@@ -490,28 +490,30 @@ public extension NESEmulatorBridge
         let cheatType = CheatType(type)
         guard cheatType == .gameGenie else { return false }
 
-        #if NATIVE
-        
-        let success = cheatCode.withCString { NESAddCheatCode($0) }
-        return success
-        
-        #else
-        
-        do
+        let codes = cheatCode.split(separator: "\n")
+        for code in codes
         {
-            let script = "Module.ccall('NESAddCheatCode', null, ['string'], ['\(cheatCode)'])"
+            #if NATIVE
+            if !code.withCString({ NESAddCheatCode($0) })
+            {
+                return false
+            }
+            #else
+            do
+            {
+                let script = "Module.ccall('NESAddCheatCode', null, ['string'], ['\(code)'])"
 
-            let success = try self.webView.evaluateJavaScriptSynchronously(script) as! Bool
-            return success
-        }
-        catch
-        {
-            print(error)
+                let success = try self.webView.evaluateJavaScriptSynchronously(script) as! Bool
+                return success
+            }
+            catch
+            {
+                print(error)
+            }
+            #endif
         }
         
-        return false
-        
-        #endif
+        return true
     }
     
     func resetCheats()
