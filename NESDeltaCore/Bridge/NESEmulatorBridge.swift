@@ -488,7 +488,7 @@ public extension NESEmulatorBridge
     func addCheatCode(_ cheatCode: String, type: String) -> Bool
     {
         let cheatType = CheatType(type)
-        guard cheatType == .gameGenie else { return false }
+        guard cheatType == .gameGenie6 || cheatType == .gameGenie8 else { return false }
 
         let codes = cheatCode.split(separator: "\n")
         for code in codes

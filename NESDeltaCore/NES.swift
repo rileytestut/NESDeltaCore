@@ -20,7 +20,8 @@ public extension GameType
 
 public extension CheatType
 {
-    static let gameGenie = CheatType("GameGenie")
+    static let gameGenie6 = CheatType("GameGenie6")
+    static let gameGenie8 = CheatType("GameGenie8")
 }
 
 @objc public enum NESGameInput: Int, Input
@@ -54,8 +55,9 @@ public struct NES: DeltaCoreProtocol
     public let videoFormat = VideoFormat(format: .bitmap(.rgb565), dimensions: CGSize(width: 256, height: 240))
     
     public var supportedCheatFormats: Set<CheatFormat> {
-        let gameGenieFormat = CheatFormat(name: NSLocalizedString("Game Genie", comment: ""), format: "XXXXXX", type: .gameGenie, allowedCodeCharacters: .letters)
-        return [gameGenieFormat]
+        let gameGenie6Format = CheatFormat(name: NSLocalizedString("Game Genie (6)", comment: ""), format: "XXXXXX", type: .gameGenie6, allowedCodeCharacters: .letters)
+        let gameGenie8Format = CheatFormat(name: NSLocalizedString("Game Genie (8)", comment: ""), format: "XXXXXXXX", type: .gameGenie8, allowedCodeCharacters: .letters)
+        return [gameGenie6Format, gameGenie8Format]
     }
     
     public var emulatorBridge: EmulatorBridging { NESEmulatorBridge.shared }
