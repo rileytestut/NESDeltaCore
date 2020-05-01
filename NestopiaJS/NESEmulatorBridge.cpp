@@ -29,17 +29,17 @@
 #include <fstream>
 
 // Variables
-Nes::Api::Emulator emulator;
-Nes::Api::Sound::Output audioOutput;
-Nes::Api::Video::Output videoOutput;
-Nes::Api::Input::Controllers controllers;
+Nes::Api::Emulator nes_emulator;
+Nes::Api::Sound::Output nes_audioOutput;
+Nes::Api::Video::Output nes_videoOutput;
+Nes::Api::Input::Controllers nes_controllers;
 
-Nes::Api::Machine machine(emulator);
-Nes::Api::Cartridge::Database database(emulator);
-Nes::Api::Input input(emulator);
-Nes::Api::Sound audio(emulator);
-Nes::Api::Video video(emulator);
-Nes::Api::Cheats cheats(emulator);
+Nes::Api::Machine nes_machine(nes_emulator);
+Nes::Api::Cartridge::Database nes_database(nes_emulator);
+Nes::Api::Input nes_input(nes_emulator);
+Nes::Api::Sound nes_audio(nes_emulator);
+Nes::Api::Video nes_video(nes_emulator);
+Nes::Api::Cheats nes_cheats(nes_emulator);
 
 VoidCallback saveCallback = NULL;
 BufferCallback audioCallback = NULL;
@@ -63,7 +63,7 @@ static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file);
 
 unsigned int NESPreferredAudioFrameLength()
 {
-    unsigned int frameRate = (machine.GetMode() == Nes::Api::Machine::PAL) ? 50 : 60;
+    unsigned int frameRate = (nes_machine.GetMode() == Nes::Api::Machine::PAL) ? 50 : 60;
     
     unsigned int preferredAudioFrameLength = (44100 / frameRate);
     return preferredAudioFrameLength;
@@ -71,7 +71,7 @@ unsigned int NESPreferredAudioFrameLength()
 
 double NESFrameDuration()
 {
-    double frameDuration = (machine.GetMode() == Nes::Api::Machine::PAL) ? (1.0 / 50.0) : (1.0 / 60.0);
+    double frameDuration = (nes_machine.GetMode() == Nes::Api::Machine::PAL) ? (1.0 / 50.0) : (1.0 / 60.0);
     return frameDuration;
 }
 
@@ -81,8 +81,8 @@ void NESInitialize(const char *databasePath)
 {
     /* Load Database */
     std::ifstream databaseFileStream(databasePath, std::ifstream::in | std::ifstream::binary);
-    database.Load(databaseFileStream);
-    database.Enable();
+    nes_database.Load(databaseFileStream);
+    nes_database.Enable();
     
     /* Prepare Callbacks */
     Nes::Api::Sound::Output::lockCallback.Set(AudioLock, NULL);
@@ -101,32 +101,32 @@ bool NESStartEmulation(const char *gameFilepath)
     /* Load Game */
     std::ifstream gameFileStream(gameFilepath, std::ios::in | std::ios::binary);
     
-    Nes::Result result = machine.Load(gameFileStream, Nes::Api::Machine::FAVORED_NES_NTSC);
+    Nes::Result result = nes_machine.Load(gameFileStream, Nes::Api::Machine::FAVORED_NES_NTSC);
     if (NES_FAILED(result))
     {
         std::cout << "Failed to launch game at " << gameFilepath << ". Error Code: " << result << std::endl;
         return false;
     }
     
-    machine.SetMode(machine.GetDesiredMode());
+    nes_machine.SetMode(nes_machine.GetDesiredMode());
     
     /* Prepare Audio */
-    audio.SetSampleBits(16);
-    audio.SetSampleRate(44100);
-    audio.SetVolume(Nes::Api::Sound::ALL_CHANNELS, 85);
-    audio.SetSpeaker(Nes::Api::Sound::SPEAKER_MONO);
+    nes_audio.SetSampleBits(16);
+    nes_audio.SetSampleRate(44100);
+    nes_audio.SetVolume(Nes::Api::Sound::ALL_CHANNELS, 85);
+    nes_audio.SetSpeaker(Nes::Api::Sound::SPEAKER_MONO);
     
-    audioOutput.samples[0] = audioBuffer;
-    audioOutput.length[0] = NESPreferredAudioFrameLength();
-    audioOutput.samples[1] = NULL;
-    audioOutput.length[1] = 0;
+    nes_audioOutput.samples[0] = audioBuffer;
+    nes_audioOutput.length[0] = NESPreferredAudioFrameLength();
+    nes_audioOutput.samples[1] = NULL;
+    nes_audioOutput.length[1] = 0;
     
     
     /* Prepare Video */
-    video.EnableUnlimSprites(true);
+    nes_video.EnableUnlimSprites(true);
     
-    videoOutput.pixels = videoBuffer;
-    videoOutput.pitch = Nes::Api::Video::Output::WIDTH * 2;
+    nes_videoOutput.pixels = videoBuffer;
+    nes_videoOutput.pitch = Nes::Api::Video::Output::WIDTH * 2;
     
     Nes::Api::Video::RenderState renderState;
     renderState.filter = Nes::Api::Video::RenderState::FILTER_NONE;
@@ -139,18 +139,18 @@ bool NESStartEmulation(const char *gameFilepath)
     renderState.bits.mask.g = 0x07E0;
     renderState.bits.mask.b = 0x001F;
     
-    if (NES_FAILED(video.SetRenderState(renderState)))
+    if (NES_FAILED(nes_video.SetRenderState(renderState)))
     {
         return false;
     }
     
     
     /* Prepare Inputs */
-    input.ConnectController(0, Nes::Api::Input::PAD1);
+    nes_input.ConnectController(0, Nes::Api::Input::PAD1);
     
     
     /* Start Emulation */
-    machine.Power(true);
+    nes_machine.Power(true);
     
     gameLoaded = true;
     
@@ -162,31 +162,31 @@ void NESStopEmulation()
     gamePath = NULL;
     gameLoaded = false;
     
-    machine.Unload();
+    nes_machine.Unload();
 }
 
 #pragma mark - Game Loop -
 
 void NESRunFrame()
 {
-    emulator.Execute(&videoOutput, &audioOutput, &controllers);
+    nes_emulator.Execute(&nes_videoOutput, &nes_audioOutput, &nes_controllers);
 }
 
 #pragma mark - Inputs -
 
 void NESActivateInput(int input)
 {
-    controllers.pad[0].buttons |= input;
+    nes_controllers.pad[0].buttons |= input;
 }
 
 void NESDeactivateInput(int input)
 {
-    controllers.pad[0].buttons &= ~input;
+    nes_controllers.pad[0].buttons &= ~input;
 }
 
 void NESResetInputs()
 {
-    controllers.pad[0].buttons = 0;
+    nes_controllers.pad[0].buttons = 0;
 }
 
 #pragma mark - Save States -
@@ -194,13 +194,13 @@ void NESResetInputs()
 void NESSaveSaveState(const char *saveStateFilepath)
 {
     std::ofstream fileStream(saveStateFilepath, std::ifstream::out | std::ifstream::binary);
-    machine.SaveState(fileStream);
+    nes_machine.SaveState(fileStream);
 }
 
 void NESLoadSaveState(const char *saveStateFilepath)
 {
     std::ifstream fileStream(saveStateFilepath, std::ifstream::in | std::ifstream::binary);
-    machine.LoadState(fileStream);
+    nes_machine.LoadState(fileStream);
 }
 
 #pragma mark - Game Saves -
@@ -216,7 +216,7 @@ void NESSaveGameSave(const char *gameSavePath)
     NESSaveSaveState(saveStatePath.c_str());
     
     // Unload cartridge, which forces emulator to save game.
-    machine.Unload();
+    nes_machine.Unload();
     
     // Check after machine.Unload but before restarting to make sure we aren't starting emulator when no game is loaded.
     if (!gameLoaded)
@@ -253,7 +253,7 @@ bool NESAddCheatCode(const char *cheatCode)
         return false;
     }
     
-    if (NES_FAILED(cheats.SetCode(code)))
+    if (NES_FAILED(nes_cheats.SetCode(code)))
     {
         return false;
     }
@@ -263,7 +263,7 @@ bool NESAddCheatCode(const char *cheatCode)
 
 void NESResetCheats()
 {
-    cheats.ClearCodes();
+    nes_cheats.ClearCodes();
 }
 
 #pragma mark - Callbacks -
