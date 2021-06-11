@@ -27,8 +27,8 @@ extern "C"
     
     void NESRunFrame();
     
-    void NESActivateInput(int input);
-    void NESDeactivateInput(int input);
+    void NESActivateInput(int input, int playerIndex);
+    void NESDeactivateInput(int input, int playerIndex);
     void NESResetInputs();
     
     void NESSaveSaveState(const char *_Nonnull saveStatePath);

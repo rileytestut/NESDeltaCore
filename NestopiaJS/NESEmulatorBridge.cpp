@@ -174,19 +174,22 @@ void NESRunFrame()
 
 #pragma mark - Inputs -
 
-void NESActivateInput(int input)
+void NESActivateInput(int input, int playerIndex)
 {
-    nes_controllers.pad[0].buttons |= input;
+    nes_controllers.pad[playerIndex].buttons |= input;
 }
 
-void NESDeactivateInput(int input)
+void NESDeactivateInput(int input, int playerIndex)
 {
-    nes_controllers.pad[0].buttons &= ~input;
+    nes_controllers.pad[playerIndex].buttons &= ~input;
 }
 
 void NESResetInputs()
 {
-    nes_controllers.pad[0].buttons = 0;
+    for (int index = 0; index < Nes::Api::Input::NUM_PADS ; index++)
+    {
+        nes_controllers.pad[index].buttons = 0;
+    }
 }
 
 #pragma mark - Save States -
