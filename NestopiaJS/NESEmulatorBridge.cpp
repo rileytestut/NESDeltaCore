@@ -28,6 +28,10 @@
 #include <iostream>
 #include <fstream>
 
+#if __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 // Variables
 Nes::Api::Emulator nes_emulator;
 Nes::Api::Sound::Output nes_audioOutput;
@@ -167,14 +171,14 @@ void NESStopEmulation()
 
 #pragma mark - Game Loop -
 
-void NESRunFrame()
+void NESRunFrame(bool processVideo)
 {
     nes_emulator.Execute(&nes_videoOutput, &nes_audioOutput, &nes_controllers);
 }
 
 #pragma mark - Inputs -
 
-void NESActivateInput(int input)
+void NESActivateInput(int input, double value)
 {
     nes_controllers.pad[0].buttons |= input;
 }
@@ -244,7 +248,7 @@ void NESLoadGameSave(const char *gameSavePath)
 
 #pragma mark - Cheats -
 
-bool NESAddCheatCode(const char *cheatCode)
+bool NESAddCheatCode(const char *cheatCode, const char *_Nonnull type)
 {
     Nes::Api::Cheats::Code code;
     
@@ -358,3 +362,18 @@ static void NST_CALLBACK FileIO(void *context, Nes::Api::User::File& file)
             break;
     }
 }
+
+#pragma mark - Emscripten -
+
+#if __EMSCRIPTEN__
+
+int main(int argc, char **argv)
+{
+    EM_ASM(
+        NESPrepareCore();
+    );
+    
+    return 0;
+}
+
+#endif

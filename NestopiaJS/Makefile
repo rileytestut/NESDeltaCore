@@ -1,5 +1,5 @@
-CXX = em++
-CXXFLAGS = -O3 -DNST_NO_ZLIB
+CXXFLAGS = -O3 -std=c++98 -DNST_NO_ZLIB
+CXX = /Users/rileytestut/Developer/Tools/emsdk/upstream/emscripten/em++
 INCLUDE  := -I../nestopia/source/core -I../nestopia/source/core/api
 SOURCES = \
 	$(wildcard ./*.cpp) \
@@ -11,6 +11,7 @@ SOURCES = \
 	$(wildcard ../nestopia/source/core/vssystem/*.cpp) \
 
 EXPORTED_FUNCS = \
+	"_main", \
     "_NESFrameDuration", \
 	"_NESInitialize", \
 	"_NESStartEmulation", \
@@ -43,10 +44,10 @@ EXPORTED_RUNTIME_FUNCS = \
 	"stat"
         
 
-EMFLAGS = --memory-init-file 0 --post-js post.js --embed-file NstDatabase.xml -s WASM=0 -s EXPORTED_FUNCTIONS='[$(EXPORTED_FUNCS)]' -s EXTRA_EXPORTED_RUNTIME_METHODS='[$(EXPORTED_RUNTIME_FUNCS)]' -s RESERVED_FUNCTION_POINTERS=5
+EMFLAGS = --memory-init-file 0 --post-js post.js --embed-file NstDatabase.xml -s WASM=0 -s EXPORTED_FUNCTIONS='[$(EXPORTED_FUNCS)]' -s EXPORTED_RUNTIME_METHODS='[$(EXPORTED_RUNTIME_FUNCS)]' -s RESERVED_FUNCTION_POINTERS=5 -s ENVIRONMENT=web -s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=200MB -s TOTAL_STACK=20MB -s STACK_OVERFLOW_CHECK=1 -s NO_DISABLE_EXCEPTION_CATCHING
 
 build: $(SOURCES)
-	$(CXX) $(CXXFLAGS) $(EMFLAGS) $(INCLUDE) $(SOURCES) -o nestopia.js
+	$(CXX) $(CXXFLAGS) $(EMFLAGS) $(INCLUDE) $(SOURCES) -o nestopia.html
 
 clean:
-	-@rm -rvf nestopia.js
+	-@rm -rvf nestopia.html

@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-#if FRAMEWORK
+#if FRAMEWORK || SWIFT_PACKAGE
 import DeltaCore
 #endif
 
@@ -61,6 +61,10 @@ public struct NES: DeltaCoreProtocol
     }
     
     public var emulatorBridge: EmulatorBridging { NESEmulatorBridge.shared }
+    
+    #if SWIFT_PACKAGE
+    public var resourceBundle: Bundle { Bundle.module }
+    #endif
     
     private init()
     {

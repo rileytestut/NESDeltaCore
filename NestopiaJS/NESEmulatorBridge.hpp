@@ -10,6 +10,7 @@
 #define NESEmulatorBridge_hpp
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #if defined(__cplusplus)
 extern "C"
@@ -25,9 +26,9 @@ extern "C"
     bool NESStartEmulation(const char *_Nonnull gamePath);
     void NESStopEmulation();
     
-    void NESRunFrame();
+    void NESRunFrame(bool processVideo);
     
-    void NESActivateInput(int input);
+    void NESActivateInput(int input, double value);
     void NESDeactivateInput(int input);
     void NESResetInputs();
     
@@ -37,7 +38,7 @@ extern "C"
     void NESSaveGameSave(const char *_Nonnull gameSavePath);
     void NESLoadGameSave(const char *_Nonnull gameSavePath);
     
-    bool NESAddCheatCode(const char *_Nonnull cheatCode);
+    bool NESAddCheatCode(const char *_Nonnull cheatCode, const char *_Nonnull type);
     void NESResetCheats();
     
     void NESSetAudioCallback(_Nullable BufferCallback audioCallback);
