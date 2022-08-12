@@ -437,6 +437,12 @@
                 "y": 140,
                 "width": 151,
                 "height": 151
+              },
+              "extendedEdges": {
+                "top": 30,
+                "bottom": 64,
+                "left": 58,
+                "right": 30
               }
             },
             {
@@ -445,9 +451,13 @@
               ],
               "frame": {
                 "x": 608,
-                "y": 224,
+                "y": 225,
                 "width": 60,
                 "height": 60
+              },
+              "extendedEdges": {
+                "bottom": 70,
+                "right": 100
               }
             },
             {
@@ -459,6 +469,9 @@
                 "y": 225,
                 "width": 60,
                 "height": 60
+              },
+              "extendedEdges": {
+                "bottom": 70
               }
             },
             {
@@ -492,6 +505,10 @@
                 "y": 61,
                 "width": 23,
                 "height": 23
+              },
+              "extendedEdges": {
+                "top": 30,
+                "left": 36
               }
             }
           ],
