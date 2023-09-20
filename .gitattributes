@@ -1,0 +1,7 @@
+NESDeltaCore/Controller[[:space:]]Skin/ipad_portrait_large.png filter=lfs diff=lfs merge=lfs -text
+NESDeltaCore/Controller[[:space:]]Skin/ipad_portrait_medium.png filter=lfs diff=lfs merge=lfs -text
+NESDeltaCore/Controller[[:space:]]Skin/ipad_portrait_small.png filter=lfs diff=lfs merge=lfs -text
+NESDeltaCore/Controller[[:space:]]Skin/ipad_landscape_large.png filter=lfs diff=lfs merge=lfs -text
+NESDeltaCore/Controller[[:space:]]Skin/ipad_landscape_medium.png filter=lfs diff=lfs merge=lfs -text
+NESDeltaCore/Controller[[:space:]]Skin/ipad_landscape_small.png filter=lfs diff=lfs merge=lfs -text
+NESDeltaCore/Controller[[:space:]]Skin/Standard.deltaskin filter=lfs diff=lfs merge=lfs -text
