@@ -325,7 +325,7 @@ public extension NESEmulatorBridge
         }
     }
     
-    func activateInput(_ input: Int, value: Double, at playerIndex: Int)
+    func activateInput(_ input: Int, value: Double, playerIndex: Int)
     {
         #if NATIVE
         
@@ -345,7 +345,7 @@ public extension NESEmulatorBridge
         #endif
     }
     
-    func deactivateInput(_ input: Int, at playerIndex: Int)
+    func deactivateInput(_ input: Int, playerIndex: Int)
     {
         #if NATIVE
         
