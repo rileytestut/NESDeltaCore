@@ -734,9 +734,9 @@
         },
         "landscape": {
           "assets": {
-            "small": "ipad_landscape_small.png",
-            "medium": "ipad_landscape_medium.png",
-            "large": "ipad_landscape_large.png"
+            "small": "ipad_landscape_splitview_small.png",
+            "medium": "ipad_landscape_splitview_medium.png",
+            "large": "ipad_landscape_splitview_large.png"
           },
           "items": [
             {
