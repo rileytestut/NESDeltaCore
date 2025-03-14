@@ -39,6 +39,8 @@ extern "C"
     
     bool NESAddCheatCode(const char *_Nonnull cheatCode);
     void NESResetCheats();
+
+    void* NESReadMemory(int address, int size);
     
     void NESSetAudioCallback(_Nullable BufferCallback audioCallback);
     void NESSetVideoCallback(_Nullable BufferCallback videoCallback);

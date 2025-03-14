@@ -325,6 +325,14 @@ public extension NESEmulatorBridge
         }
     }
     
+    func readMemory(at address: Int, size: Int) -> Data?
+    {
+        guard let bytes = NESReadMemory(Int32(address), Int32(size)) else { return nil }
+        
+        let data = Data(bytesNoCopy: bytes, count: size, deallocator: .none)
+        return data
+    }
+    
     func activateInput(_ input: Int, value: Double, playerIndex: Int)
     {
         #if NATIVE

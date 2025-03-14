@@ -13,6 +13,7 @@
 
 // Nestopia
 #include "NstBase.hpp"
+#include "NstMachine.hpp"
 #include "NstApiEmulator.hpp"
 #include "NstApiMachine.hpp"
 #include "NstApiCartridge.hpp"
@@ -163,6 +164,20 @@ void NESStopEmulation()
     gameLoaded = false;
     
     nes_machine.Unload();
+}
+
+void* NESReadMemory(int address, int size)
+{
+    if (address + size > Nes::Core::Cpu::RAM_SIZE)
+    {
+        // Beyond RAM bounds, return nil;
+        return NULL;
+    }
+    
+    Nes::Core::Machine& core_machine = nes_emulator;
+    
+    void *bytes = (core_machine.cpu.GetRam() + address);
+    return bytes;
 }
 
 #pragma mark - Game Loop -
