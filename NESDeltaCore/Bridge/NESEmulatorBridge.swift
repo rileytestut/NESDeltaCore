@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if canImport(WebKit)
 import WebKit
+#endif
 
 #if FRAMEWORK
 import DeltaCore
@@ -35,6 +37,7 @@ extension RunLoop
     }
 }
 
+#if canImport(WebKit)
 extension WKWebView
 {
     @discardableResult func evaluateJavaScriptSynchronously(_ javaScriptString: String) throws -> Any?
@@ -75,6 +78,7 @@ extension WKWebView
         return finishedResult
     }
 }
+#endif
 
 public class NESEmulatorBridge : NSObject, EmulatorBridging
 {
@@ -90,8 +94,10 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     
     public static var applicationWindow: UIWindow?
     
+    #if canImport(WebKit)
     private var webView: WKWebView!
     private var initialNavigation: WKNavigation?
+    #endif
     
     private var isReady = false
     
@@ -139,6 +145,7 @@ public class NESEmulatorBridge : NSObject, EmulatorBridging
     }
 }
 
+#if canImport(WebKit)
 extension NESEmulatorBridge: WKNavigationDelegate
 {
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
@@ -226,6 +233,7 @@ private extension NESEmulatorBridge
         try data.write(to: fileURL)
     }
 }
+#endif
 
 public extension NESEmulatorBridge
 {
